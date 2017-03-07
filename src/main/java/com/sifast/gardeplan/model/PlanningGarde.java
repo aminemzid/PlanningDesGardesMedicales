@@ -1,4 +1,4 @@
-package com.sifast.stage.model;
+package com.sifast.gardeplan.model;
 
 import com.toedter.calendar.JDateChooser;
 

@@ -1,4 +1,4 @@
-package com.sifast.stage.controller;
+package com.sifast.gardeplan.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sifast.stage.ihm.MembresDeGarde;
-import com.sifast.stage.model.Docteur;
-import com.sifast.stage.model.PrefEnum;
+import com.sifast.gardeplan.ihm.MembresDeGarde;
+import com.sifast.gardeplan.model.Docteur;
+import com.sifast.gardeplan.model.PrefEnum;
 
 
 

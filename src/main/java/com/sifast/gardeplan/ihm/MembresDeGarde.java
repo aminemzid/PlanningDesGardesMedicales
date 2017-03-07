@@ -1,4 +1,4 @@
-package com.sifast.stage.ihm;
+package com.sifast.gardeplan.ihm;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -23,8 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sifast.stage.controller.PdfGenerator;
-import com.sifast.stage.controller.Service;
+import com.sifast.gardeplan.controller.PdfGenerator;
+import com.sifast.gardeplan.controller.Service;
 
 public class MembresDeGarde extends JFrame {
 

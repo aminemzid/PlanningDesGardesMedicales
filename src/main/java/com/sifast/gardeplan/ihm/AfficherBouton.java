@@ -1,4 +1,4 @@
-package com.sifast.stage.ihm;
+package com.sifast.gardeplan.ihm;
 
 import java.awt.Component;
 

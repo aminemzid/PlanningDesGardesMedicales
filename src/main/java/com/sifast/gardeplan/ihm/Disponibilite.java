@@ -1,4 +1,4 @@
-package com.sifast.stage.ihm;
+package com.sifast.gardeplan.ihm;
 
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -20,8 +20,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.sifast.stage.controller.Service;
-import com.sifast.stage.model.PrefEnum;
+import com.sifast.gardeplan.controller.Service;
+import com.sifast.gardeplan.model.PrefEnum;
 import com.toedter.calendar.JDateChooser;
 
 public class Disponibilite extends JFrame {

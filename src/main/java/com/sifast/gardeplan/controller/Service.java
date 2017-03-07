@@ -1,13 +1,13 @@
-package com.sifast.stage.controller;
+package com.sifast.gardeplan.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JTable;
 
-import com.sifast.stage.model.Docteur;
-import com.sifast.stage.model.PlanningGarde;
-import com.sifast.stage.model.PrefEnum;
+import com.sifast.gardeplan.model.Docteur;
+import com.sifast.gardeplan.model.PlanningGarde;
+import com.sifast.gardeplan.model.PrefEnum;
 import com.toedter.calendar.JDateChooser;
 
 public class Service {

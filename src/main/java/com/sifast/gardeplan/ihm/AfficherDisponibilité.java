@@ -1,4 +1,4 @@
-package com.sifast.stage.ihm;
+package com.sifast.gardeplan.ihm;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
-import com.sifast.stage.ihm.Disponibilite;
+import com.sifast.gardeplan.ihm.Disponibilite;
 
 public class AfficherDisponibilité extends DefaultCellEditor {
 

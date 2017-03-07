@@ -1,4 +1,4 @@
-package com.sifast.stage.ihm;
+package com.sifast.gardeplan.ihm;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.sifast.stage.controller.Service;
+import com.sifast.gardeplan.controller.Service;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import javax.swing.UIManager;
