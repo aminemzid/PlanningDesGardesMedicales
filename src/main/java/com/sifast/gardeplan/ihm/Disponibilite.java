@@ -1,6 +1,7 @@
 package com.sifast.gardeplan.ihm;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -52,7 +54,22 @@ public class Disponibilite extends JFrame {
 				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
 		lblNomDuDocteur.setBounds(235, 33, 131, 14);
 		contentPane.add(lblNomDuDocteur);
-
+		
+		
+  // Nombre de nuit déja fait durant ce mois ( doit etre inférieur ou égal à 4 par mois)
+		
+		JLabel lblNbrenuit = new JLabel( " a fait "+
+  		MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString() + " nuits durant ce mois");
+	    lblNbrenuit.setBounds(320, 33, 250, 14);
+		contentPane.add(lblNbrenuit);
+		
+		int n= Integer.parseInt(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString());
+		
+		if (n>=4) {
+		
+		JOptionPane jop1 = new JOptionPane();
+		jop1.showMessageDialog(null, "Ce membre a fait 4 nuits ou plus de garde durant ce mois \n \n         ", "choisir un autre membre", JOptionPane.ERROR_MESSAGE);
+		}
 		// choisir la date
 
 		JDateChooser dateDispo = new JDateChooser();
@@ -76,13 +93,15 @@ public class Disponibilite extends JFrame {
 
 		Object[][] data = null;
 
-		String[] colomname = { "Date", "Disponibilité" };
+		String[] colomname = { "Date", "Disponibilité"};
 		 DefaultTableModel model = new DefaultTableModel(data, colomname);
 		JTable table1 = new JTable(model);
 		table1.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		table1.setForeground(Color.black);
 		table1.setRowHeight(30);
 
+			
+		
 		// Affichage des données existantes
 		HashMap<String, PrefEnum> tmpPref = Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).getPreference();
 
@@ -120,10 +139,10 @@ public class Disponibilite extends JFrame {
 						+ AjouterPlanning.dateF.getDate().getDate();
 				String dateChoisie = dateDispo.getDate().getYear() + "" + dateDispo.getDate().getMonth()
 						+ dateDispo.getDate().getDate();
+				
 				int dateDebut_int = Integer.parseInt(dateDebut);
 				int dateFin_int = Integer.parseInt(dateFin);
 				int dateChoisie_int = Integer.parseInt(dateChoisie);
-
 				if (dateChoisie_int < dateDebut_int || dateChoisie_int > dateFin_int) {
 					JOptionPane
 							.showMessageDialog(btnAjouter,
@@ -146,13 +165,14 @@ public class Disponibilite extends JFrame {
 					}
 
 					else {
-
-						if (rbDispoBut.isSelected()) {
+						if ((rbDispoBut.isSelected()) && (n<4)){
+						
 							row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
 							row[1] = PrefEnum.dispo_but;
 							model.addRow(row);
 							Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
 									(PrefEnum) row[1]);
+						
 
 						} else {
 							if (rbNotDispo.isSelected()) {
@@ -165,6 +185,8 @@ public class Disponibilite extends JFrame {
 						}
 					}
 				}
+					
+			
 			}
 		});
 		// boutton supprimer

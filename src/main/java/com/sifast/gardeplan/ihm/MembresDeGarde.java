@@ -26,11 +26,11 @@ import javax.swing.table.TableColumn;
 import com.sifast.gardeplan.controller.PdfGenerator;
 import com.sifast.gardeplan.controller.Service;
 
+
 public class MembresDeGarde extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	public static ArrayList<Object> dates = new ArrayList<Object>();
 	public static JTable table;
 	public static Service service;
@@ -68,7 +68,7 @@ public class MembresDeGarde extends JFrame {
 		// table
 
 		Object[][] data = null;
-		String[] colomname = { "membre", "Disponibilité" };
+		String[] colomname = { "Membre", "Nbre de nuits d\u00E9ja fait ", "Disponibilité"};
 		DefaultTableModel model = new DefaultTableModel(data, colomname);
 		table = new JTable(model);
 
@@ -84,7 +84,7 @@ public class MembresDeGarde extends JFrame {
 		contentPane.add(pane);
 
 		// bouton ajouter
-		Component[] row = new Component[2];
+		Component[] row = new Component[3];
 		JButton btnAdd = new JButton("Ajouter membre");
 		btnAdd.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 17));
@@ -100,10 +100,11 @@ public class MembresDeGarde extends JFrame {
 				service.createDoctor();
 
 				AfficherDisponibilité bt = new AfficherDisponibilité(new JCheckBox());
-				// mettre le bouton saisir disponibilité à la 2 eme colonne du tableau model
-				TableColumn dispoColumn = table.getColumnModel().getColumn(1);
+				// mettre le bouton saisir disponibilité à la 3 eme colonne du tableau model
+				TableColumn dispoColumn = table.getColumnModel().getColumn(2);
             	dispoColumn.setCellRenderer(new AfficherBouton());
 				dispoColumn.setCellEditor(bt);
+								
 			}
 
 		});
@@ -151,9 +152,9 @@ public class MembresDeGarde extends JFrame {
 		
 					calendar.add(Calendar.DATE, 1);
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
-//					calendar=Calendar.getInstance();
+             //	calendar=Calendar.getInstance();
 			}
-				if (table.getValueAt(0, 0) == null)
+				if (table.getValueAt(0,0) == null)
 					JOptionPane.showMessageDialog(null,
 							"Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);

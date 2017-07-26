@@ -29,8 +29,8 @@ public class Docteur {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
-	public HashMap<String, PrefEnum> getPreference() {
+	
+  	public HashMap<String, PrefEnum> getPreference() {
 		return preference;
 	}
 

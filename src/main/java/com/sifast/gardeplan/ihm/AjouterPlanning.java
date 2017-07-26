@@ -24,6 +24,7 @@ public class AjouterPlanning extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
+	private JTextField textField2;
 	static private AjouterPlanning frame1;
 	public static JDateChooser dateF;
 	public static JDateChooser dateD;
@@ -58,6 +59,7 @@ public class AjouterPlanning extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		// titre residant medecin 
 		
 		// Name of planning
 
@@ -75,6 +77,17 @@ public class AjouterPlanning extends JFrame {
 		textField.setBounds(310, 170, 154, 26);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		//service de garde
+		JLabel lblNomservice = new JLabel("Nom de service de garde :");
+		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		lblNomservice.setBounds(100, 340, 160, 14);
+		contentPane.add(lblNomservice);
+	
+		textField2 = new JTextField();
+		textField2.setBounds(310, 340, 154, 26);
+		contentPane.add(textField2);
+		textField2.setColumns(10);
 
 		// Date debut
 
@@ -145,7 +158,7 @@ public class AjouterPlanning extends JFrame {
 //					plan.setDateDebut(dateD);
 //					plan.setDateFin(dateF);
 //					plan.setNomPlanning(textField.getText().toString());
-				    Service.createPlanning(textField.getText().toString(), dateD, dateF);
+				    Service.createPlanning(textField.getText().toString(), dateD, dateF,textField2.getText().toString());
 					
 					MembresDeGarde frame = new MembresDeGarde();
 					frame.setSize(600, 600);

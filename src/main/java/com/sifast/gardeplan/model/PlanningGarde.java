@@ -5,6 +5,7 @@ import com.toedter.calendar.JDateChooser;
 public class PlanningGarde {
 
 	String NomPlanning;
+	String NomService ;
 	JDateChooser DateDebut;
 	JDateChooser DateFin;
 
@@ -13,10 +14,11 @@ public class PlanningGarde {
 	public PlanningGarde() {
 	}
 
-	public PlanningGarde(String NomPlanning, JDateChooser DateDebut, JDateChooser DateFin) {
+	public PlanningGarde(String NomPlanning, JDateChooser DateDebut, JDateChooser DateFin, String NomService ) {
 		this.NomPlanning = NomPlanning;
 		this.DateDebut = DateDebut;
 		this.DateFin = DateFin;
+		this.NomService = NomService;
 	}
 
 	// Methodes set,get
@@ -27,6 +29,15 @@ public class PlanningGarde {
 
 	public void setNomPlanning(String nomPlanning) {
 		this.NomPlanning = nomPlanning;
+	}
+	
+	
+	public String getNomService() {
+		return NomService;
+	}
+
+	public void setNomService(String nomService) {
+		this.NomService = nomService;
 	}
 
 	public JDateChooser getDateDebut() {

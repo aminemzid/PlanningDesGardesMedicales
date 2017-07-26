@@ -24,50 +24,57 @@ public class PdfGenerator {
 		
 		document.add(new Paragraph("Planning des Gardes Medicales"));
 		document.add(new Paragraph(Service.plan.getNomPlanning()));
+		document.add(new Paragraph("dans le service " + Service.plan.getNomService()));
 		document.add(new Paragraph("du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate()) + " au "
 				+ String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate())));
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
-		
-		
+				
 		
 		Boolean test2 = true;
 		int indice = 0;
+		int n;
 		Docteur docteur;
 		for (Object elem1 : MembresDeGarde.dates) { //na3mlou test
 			test2 = true;
 			
 			while (test2) {
 				 docteur = Service.docteurs.get(indice % Service.docteurs.size());
-				if (!(docteur.getPreference().containsKey(elem1))) // champ
-																	// vide=
-																	// dispo
+				 n=Service.nbr[indice % Service.docteurs.size()];
+				if ((!(docteur.getPreference().containsKey(elem1))) && n<4)  // champ
+																	         // vide=
+																	         // dispo
 				{
 					document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
 					System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
+					Service.nbr[indice % Service.docteurs.size()]+=1;
 					test2 = false;
 				}else{
 				if (docteur.getPreference().get(elem1).equals(PrefEnum.not_dispo)) {
 					indice++;
 				test2 = false;
-				}else
+				}else {
 				if (docteur.getPreference().get(elem1).equals(PrefEnum.dispo_but)) {
 					Boolean test = false;
 					// recherche du docteur disponible
 					for (int i = 0; i < Service.docteurs.size(); i++) {
-						if (!(Service.docteurs.get(i).getPreference().containsKey(elem1))) {
+						if  (Service.nbr[i]<4) {
+						if  (!(Service.docteurs.get(i).getPreference().containsKey(elem1))) {
 							document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(i).getNom() + " en garde "));
 							System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 							test = true;
 							indice++;
+							Service.nbr[i]=Service.nbr[i] + 1 ;
 							test2 = false;
 							break;
+					    	}
 						}
 					}
-				if (!test) {
+				if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 )){
 						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
+						Service.nbr[indice % Service.docteurs.size()]=Service.nbr[indice % Service.docteurs.size()] + 1 ;
 						//affichage docteur
 			//		System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
@@ -76,10 +83,9 @@ public class PdfGenerator {
 					}
 					break;
 				}else {
-					//rien faire
-					
+					//rien faire	
 				}
-			}}
+				}}}
 		}
 	
 		document.close();
