@@ -34,58 +34,70 @@ public class PdfGenerator {
 		
 		Boolean test2 = true;
 		int indice = 0;
-		int n;
 		Docteur docteur;
 		for (Object elem1 : MembresDeGarde.dates) { //na3mlou test
 			test2 = true;
 			
 			while (test2) {
 				 docteur = Service.docteurs.get(indice % Service.docteurs.size());
-				 n=Service.nbr[indice % Service.docteurs.size()];
-				if ((!(docteur.getPreference().containsKey(elem1))) && n<4)  // champ
-																	         // vide=
-																	         // dispo
+				/* if (!(docteur.getPreference().containsKey(elem1))) // champ
+															         // vide=
+														            // dispo
 				{
 					document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
 					System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
 					Service.nbr[indice % Service.docteurs.size()]+=1;
 					test2 = false;
-				}else{
-				if (docteur.getPreference().get(elem1).equals(PrefEnum.not_dispo)) {
+				} 
+				else{  */
+				 
+				//if (docteur.getPreference().get(elem1).equals(PrefEnum.not_dispo)) {
+					if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) <0)
+					{
 					indice++;
 				test2 = false;
 				}else {
-				if (docteur.getPreference().get(elem1).equals(PrefEnum.dispo_but)) {
+			   	//if (docteur.getPreference().get(elem1).equals(PrefEnum.dispo_but)) {
+					if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) >= 0) {
+
 					Boolean test = false;
 					// recherche du docteur disponible
 					for (int i = 0; i < Service.docteurs.size(); i++) {
 						if  (Service.nbr[i]<4) {
-						if  (!(Service.docteurs.get(i).getPreference().containsKey(elem1))) {
+						if  (!(Service.docteurs.get(i).getPreference().containsKey(elem1)) && (Service.preference.get(elem1).get(i) == PrefEnum.dispo_but)) {
 							document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(i).getNom() + " en garde "));
-							System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
+							System.out.println(Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 							test = true;
 							indice++;
-							Service.nbr[i]=Service.nbr[i] + 1 ;
+							Service.nbr[i]=Service.nbr[i]+ 1 ;
 							test2 = false;
 							break;
 					    	}
 						}
 					}
-				if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 )){
-						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
-						Service.nbr[indice % Service.docteurs.size()]=Service.nbr[indice % Service.docteurs.size()] + 1 ;
+			   	if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 )){
+					if (Service.preference.get(elem1).get(indice % Service.docteurs.size()) == PrefEnum.dispo_but) {
+						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get(indice % Service.docteurs.size()
+								).getNom() + " en garde "));
+						Service.nbr[indice % Service.docteurs.size()]+= 1;
 						//affichage docteur
-			//		System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
+		   			//	System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
-						
+					} else {document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get
+							(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom() + " en garde "));
+					        indice ++ ;
+					        Service.nbr[Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)]+= 1;
+                     }
 					break;
 					}
 					break;
 				}else {
 					//rien faire	
 				}
-				}}}
+				}
+					//}
+				}
 		}
 	
 		document.close();

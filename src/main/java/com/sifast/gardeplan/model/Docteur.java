@@ -1,11 +1,12 @@
 package com.sifast.gardeplan.model;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Docteur {
 
 	private String nom;
-	private HashMap<String, PrefEnum> preference;
+	private HashMap<String,List<PrefEnum>> preference;
 
 	// constructeur
 
@@ -16,7 +17,7 @@ public class Docteur {
 		this.nom = nom;
 	}
 
-	public Docteur(HashMap<String, PrefEnum> preference) {
+	public Docteur(HashMap<String, List<PrefEnum>> preference) {
 		this.preference = preference;
 	}
 
@@ -30,12 +31,15 @@ public class Docteur {
 		this.nom = nom;
 	}
 	
-  	public HashMap<String, PrefEnum> getPreference() {
+  	public HashMap<String,List<PrefEnum>> getPreference() {
 		return preference;
 	}
 
-	public void setPreference(HashMap<String, PrefEnum> preference) {
+	public void setPreference(HashMap<String, List<PrefEnum>> preference) {
 		this.preference = preference;
+	}
+	public int getindex(HashMap<String, List<PrefEnum>> preference, PrefEnum prefen, List<PrefEnum> value ) {
+		return value.indexOf(prefen);
 	}
 
 }

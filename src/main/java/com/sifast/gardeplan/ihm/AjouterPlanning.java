@@ -130,9 +130,28 @@ public class AjouterPlanning extends JFrame {
 		butAjouter.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
+				String dateDebut1 ;
+				String dateFin1 ;
+							
+				if (dateD.getDate().getMonth()<10)
+				{ if (dateD.getDate().getDate()<10)
+				{ dateDebut1=""+dateD.getDate().getYear()+"0"+dateD.getDate().getMonth()+"0"+dateD.getDate().getDate();}
+				else { dateDebut1=""+dateD.getDate().getYear()+"0"+dateD.getDate().getMonth()+dateD.getDate().getDate();}
+				}	
+				else { if (dateD.getDate().getDate()<10)
+				{ dateDebut1=""+dateD.getDate().getYear()+dateD.getDate().getMonth()+"0"+dateD.getDate().getDate();}
+				else { 	dateDebut1=""+dateD.getDate().getYear()+dateD.getDate().getMonth()+dateD.getDate().getDate();}
+				}
 				
-				String dateDebut1=dateD.getDate().getYear()+""+dateD.getDate().getMonth()+dateD.getDate().getDate();
-				String dateFin1=dateF.getDate().getYear()+""+dateF.getDate().getMonth()+dateF.getDate().getDate();
+				if (dateF.getDate().getMonth()<10)
+				{ if (dateF.getDate().getDate()<10)
+				{ dateFin1=""+dateF.getDate().getYear()+"0"+dateF.getDate().getMonth()+"0"+dateF.getDate().getDate();}
+				else { dateFin1=""+dateF.getDate().getYear()+"0"+dateF.getDate().getMonth()+dateF.getDate().getDate();}
+				}	
+				else { if (dateF.getDate().getDate()<10)
+				{ dateFin1=""+dateF.getDate().getYear()+dateF.getDate().getMonth()+"0"+dateF.getDate().getDate();}
+				else { 	dateFin1=""+dateF.getDate().getYear()+dateF.getDate().getMonth()+dateF.getDate().getDate();}
+				}
 				int dateDebut1_int = Integer.parseInt(dateDebut1);
 				int dateFin1_int = Integer.parseInt(dateFin1);
 				System.out.println(dateDebut1_int);

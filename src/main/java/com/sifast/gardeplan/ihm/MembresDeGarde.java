@@ -68,7 +68,7 @@ public class MembresDeGarde extends JFrame {
 		// table
 
 		Object[][] data = null;
-		String[] colomname = { "Membre", "Nbre de nuits d\u00E9ja fait ", "Disponibilité"};
+		String[] colomname = { "Membre", "Nbre de nuits d\u00E9ja fait ", "Disponibilit\u00E9"};
 		DefaultTableModel model = new DefaultTableModel(data, colomname);
 		table = new JTable(model);
 
@@ -166,7 +166,7 @@ public class MembresDeGarde extends JFrame {
 					// }
 
 					service.genererPlanning(table);
-					
+					service.generernombre(table);
 					try {
 						PdfGenerator.generatePdfFile();
 						

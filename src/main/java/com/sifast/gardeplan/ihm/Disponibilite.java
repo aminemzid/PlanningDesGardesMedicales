@@ -1,11 +1,12 @@
 package com.sifast.gardeplan.ihm;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.ButtonGroup;
@@ -17,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +31,7 @@ public class Disponibilite extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
-
+	
 	// private HashMap<String, PrefEnum> preference = new
 	// HashMap<String,PrefEnum>();
 
@@ -66,9 +66,8 @@ public class Disponibilite extends JFrame {
 		int n= Integer.parseInt(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString());
 		
 		if (n>=4) {
-		
-		JOptionPane jop1 = new JOptionPane();
-		jop1.showMessageDialog(null, "Ce membre a fait 4 nuits ou plus de garde durant ce mois \n \n         ", "choisir un autre membre", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Ce membre a fait 4 nuits ou plus de garde durant ce mois \n \n         ", "choisir un autre membre",
+				JOptionPane.ERROR_MESSAGE);	
 		}
 		// choisir la date
 
@@ -103,9 +102,9 @@ public class Disponibilite extends JFrame {
 			
 		
 		// Affichage des données existantes
-		HashMap<String, PrefEnum> tmpPref = Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).getPreference();
+		HashMap<String,List<PrefEnum>> tmpPref = Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).getPreference();
 
-		for (Entry<String, PrefEnum> entry : tmpPref.entrySet()) {
+		for (Entry<String, List<PrefEnum>> entry : tmpPref.entrySet()) {
 
 			System.out.println(entry.getKey());
 			System.out.println(entry.getValue());
@@ -132,17 +131,43 @@ public class Disponibilite extends JFrame {
 		btnAjouter.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-
-				String dateDebut = AjouterPlanning.dateD.getDate().getYear() + ""+ AjouterPlanning.dateD.getDate().getMonth()
-						+ AjouterPlanning.dateD.getDate().getDate();
-				String dateFin = AjouterPlanning.dateF.getDate().getYear() + "" + AjouterPlanning.dateF.getDate().getMonth()
-						+ AjouterPlanning.dateF.getDate().getDate();
-				String dateChoisie = dateDispo.getDate().getYear() + "" + dateDispo.getDate().getMonth()
-						+ dateDispo.getDate().getDate();
+				String dateDebut ;
+				String dateFin ;
+				String dateChoisie ;		
+				if (AjouterPlanning.dateD.getDate().getMonth()<10)
+				{ if (AjouterPlanning.dateD.getDate().getDate()<10)
+				{ dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+"0"+AjouterPlanning.dateD.getDate().getMonth()+"0"+AjouterPlanning.dateD.getDate().getDate();}
+				else { dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+"0"+AjouterPlanning.dateD.getDate().getMonth()+AjouterPlanning.dateD.getDate().getDate();}
+				}	
+				else { if (AjouterPlanning.dateD.getDate().getDate()<10)
+				{ dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+AjouterPlanning.dateD.getDate().getMonth()+"0"+AjouterPlanning.dateD.getDate().getDate();}
+				else { 	dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+AjouterPlanning.dateD.getDate().getMonth()+AjouterPlanning.dateD.getDate().getDate();}
+				}
+				
+				if ( AjouterPlanning.dateF.getDate().getMonth()<10)
+				{ if ( AjouterPlanning.dateF.getDate().getDate()<10)
+				{ dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+"0"+ AjouterPlanning.dateF.getDate().getMonth()+"0"+ AjouterPlanning.dateF.getDate().getDate();}
+				else { dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+"0"+ AjouterPlanning.dateF.getDate().getMonth()+ AjouterPlanning.dateF.getDate().getDate();}
+				}	
+				else { if ( AjouterPlanning.dateF.getDate().getDate()<10)
+				{ dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+ AjouterPlanning.dateF.getDate().getMonth()+"0"+ AjouterPlanning.dateF.getDate().getDate();}
+				else { 	dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+ AjouterPlanning.dateF.getDate().getMonth()+ AjouterPlanning.dateF.getDate().getDate();}
+				}
+				
+				if ( dateDispo.getDate().getMonth()<10)
+				{ if (dateDispo.getDate().getDate()<10)
+				{ dateChoisie=""+dateDispo.getDate().getYear()+"0"+ dateDispo.getDate().getMonth()+"0"+ dateDispo.getDate().getDate();}
+				else { dateChoisie=""+ dateDispo.getDate().getYear()+"0"+dateDispo.getDate().getMonth()+ dateDispo.getDate().getDate();}
+				}	
+				else { if (dateDispo.getDate().getDate()<10)
+				{ dateChoisie=""+dateDispo.getDate().getYear()+ dateDispo.getDate().getMonth()+"0"+dateDispo.getDate().getDate();}
+				else { 	dateChoisie=""+dateDispo.getDate().getYear()+ dateDispo.getDate().getMonth()+dateDispo.getDate().getDate();}
+				}
 				
 				int dateDebut_int = Integer.parseInt(dateDebut);
 				int dateFin_int = Integer.parseInt(dateFin);
 				int dateChoisie_int = Integer.parseInt(dateChoisie);
+				
 				if (dateChoisie_int < dateDebut_int || dateChoisie_int > dateFin_int) {
 					JOptionPane
 							.showMessageDialog(btnAjouter,
@@ -163,26 +188,34 @@ public class Disponibilite extends JFrame {
 								JOptionPane.ERROR_MESSAGE);
 
 					}
+					
 
-					else {
-						if ((rbDispoBut.isSelected()) && (n<4)){
-						
-							row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-							row[1] = PrefEnum.dispo_but;
-							model.addRow(row);
-							Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
-									(PrefEnum) row[1]);
-						
-
-						} else {
+					else {                 
+					    if ((rbDispoBut.isSelected()) && (n<4)){
+					    	    row[0] = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
+						     	row[1] = PrefEnum.dispo_but;
+							    model.addRow(row);
+//					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
+					//				(PrefEnum) row[1]);
+							  								    
+							   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());;
+							    List<PrefEnum> value = Service.preference.getOrDefault(key, new LinkedList<>());
+							    value.add(PrefEnum.dispo_but);
+							    Service.preference.put(key, value);
+						}else {
 							if (rbNotDispo.isSelected()) {
-								row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-								row[1] = PrefEnum.not_dispo;
-								model.addRow(row);
-								Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
-										(PrefEnum) row[1]);
+					    	        row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
+							    	row[1] = PrefEnum.not_dispo;
+							    	model.addRow(row);
+							//	Service.preference.put(String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate()),
+										//(PrefEnum) row[1]);
+								
+								   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
+								    List<PrefEnum> value = Service.preference.getOrDefault(key, new LinkedList<>());
+								    value.add(PrefEnum.not_dispo);
+								    Service.preference.put(key, value);					    	
 							}
-						}
+						   }
 					}
 				}
 					
@@ -212,19 +245,18 @@ public class Disponibilite extends JFrame {
 		});
 
 		// bouton valider
-
 		JButton btnValider = new JButton("valider ");
 		btnValider.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnValider.setBounds(235, 506, 89, 23);
 		contentPane.add(btnValider);
 		btnValider.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {	
+				
 				Service.docteurs.get(MembresDeGarde.table.getSelectedRow()).setPreference(Service.preference);
 
 				setVisible(false);
-			}
-
+				}
+		   
 		});
 
 	}

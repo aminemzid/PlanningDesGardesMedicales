@@ -2,6 +2,7 @@ package com.sifast.gardeplan.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JTable;
 
@@ -17,14 +18,14 @@ public class Service {
 	public static int[] nbr = new int[1000];
 
 	public static PlanningGarde plan = new PlanningGarde();
-	public static HashMap<String, PrefEnum> preference = new HashMap<String, PrefEnum>();
+	public static HashMap<String,List<PrefEnum>> preference = new HashMap<String, List<PrefEnum>>();
 
 	public Service() {
 	}
 
 	public void createDoctor() {
 		Docteur docteur = new Docteur();
-		docteur.setPreference(new HashMap<String, PrefEnum>());
+		docteur.setPreference(new HashMap<String,List<PrefEnum>>());
 		docteurs.add(docteur);
 	}
 
@@ -37,16 +38,21 @@ public class Service {
 	
 			for (int i = 0; i < table.getRowCount(); i++) {
 				docteurs.get(i).setNom(table.getValueAt(i,0).toString());
-				
-   // stocker le nbre de nuits dans le tableau nbr
-				nbr[i]=Integer.parseInt(MembresDeGarde.table.getValueAt(i,1).toString());
-			}
+					}
 			return docteurs;
 		}
-	
+		// stocker le nbre de nuits dans le tableau nbr
+	     public static int[] generernombre(JTable table ) {
+	    	 for (int i = 0; i < table.getRowCount(); i++) {
+					nbr[i]=Integer.parseInt(MembresDeGarde.table.getValueAt(i,1).toString());
+	    	 }
+	    	 return nbr;
+	     }
+
+		
 	// fonction pour gerer la disponibilié dans Disponibilite
 
-	public static ArrayList<Docteur> gererDisponiblite(JTable table, HashMap<String, PrefEnum> preference) {
+	public static ArrayList<Docteur> gererDisponiblite(JTable table, HashMap<String, List<PrefEnum>> preference) {
        if (nbr[table.getSelectedRow()]<4)        
 		{docteurs.get(table.getSelectedRow()).setPreference(preference);
 		}
