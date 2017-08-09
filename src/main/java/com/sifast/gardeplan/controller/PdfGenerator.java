@@ -3,48 +3,77 @@ package com.sifast.gardeplan.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sifast.gardeplan.ihm.MembresDeGarde;
 import com.sifast.gardeplan.model.Docteur;
 import com.sifast.gardeplan.model.PrefEnum;
-
-
-
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
 public class PdfGenerator {
 	public static Document document = new Document();
-	public static void generatePdfFile() throws Exception {
+   	public static void generatePdfFile() throws Exception {
 		
-		
-		
-
+   	  BaseFont fonte = BaseFont.createFont(
+   	          BaseFont.COURIER,
+   	          BaseFont.CP1252,
+   	          BaseFont.NOT_EMBEDDED);
+   	      Font maFonte = new Font(fonte);
+    	maFonte.setColor(BaseColor.BLUE);
+   	    maFonte.setStyle(Font.BOLD);
+   	    maFonte.setSize(30.0f);
+  		  	    
+   	  BaseFont fonte2 = BaseFont.createFont(
+   	          BaseFont.COURIER,
+   	          BaseFont.CP1252,
+   	          BaseFont.NOT_EMBEDDED);
+   	      Font maFonte2 = new Font(fonte2);
+    	maFonte2.setColor(BaseColor.GRAY);
+    	maFonte2.setStyle(Font.BOLD);
+   	    maFonte2.setSize(10.0f);
+   	    
 		PdfWriter.getInstance(document, new FileOutputStream("planning.pdf"));
 		document.open();
-		
-		document.add(new Paragraph("Planning des Gardes Medicales"));
-		document.add(new Paragraph(Service.plan.getNomPlanning()));
-		document.add(new Paragraph("dans le service " + Service.plan.getNomService()));
-		document.add(new Paragraph("du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate()) + " au "
+		Paragraph para =new Paragraph("Hopital Habib Bourguiba Sfax",maFonte2);
+		para.setAlignment(Element.ALIGN_RIGHT);
+		document.add(para);
+		document.add(new Paragraph("Planning des Gardes Medicales",maFonte));
+		document.add(new Paragraph("\n"));
+		document.add(new Paragraph("\n"));
+		document.add(new Paragraph("Nom du planning : " + Service.plan.getNomPlanning()));
+		document.add(new Paragraph("Service de la garde : " + Service.plan.getNomService()));
+		document.add(new Paragraph("Periode de la garde : du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate()) + " au "
 				+ String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate())));
+		document.add(new Paragraph("Nombre de medecins présents par jour de garde : " + Service.plan.getNbrmed()));
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
 		document.add(new Paragraph("\n"));
-				
-		
+	
+		PdfPTable table = new PdfPTable(2);	
+		 PdfPCell cell1 = new PdfPCell(new Paragraph("Date"));
+         PdfPCell cell2 = new PdfPCell(new Paragraph("Medecin en garde"));
+         table.addCell(cell1);
+         table.addCell(cell2);
+           
 		Boolean test2 = true;
 		int indice = 0;
+		int n=Service.plan.getNbrmed();
 		Docteur docteur;
+		String nomdr="" ;
 		for (Object elem1 : MembresDeGarde.dates) { //na3mlou test
 			test2 = true;
-			
+			for(int j=0; j<n; j++) {
 			while (test2) {
 				 docteur = Service.docteurs.get(indice % Service.docteurs.size());
 				/* if (!(docteur.getPreference().containsKey(elem1))) // champ
 															         // vide=
 														            // dispo
-				{
-					document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
+				{	document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
 					System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
 					Service.nbr[indice % Service.docteurs.size()]+=1;
@@ -64,30 +93,53 @@ public class PdfGenerator {
 					Boolean test = false;
 					// recherche du docteur disponible
 					for (int i = 0; i < Service.docteurs.size(); i++) {
-						if  (Service.nbr[i]<4) {
+						if  (Service.nbr[i]<4 && nomdr !=Service.docteurs.get(i).getNom()) {
 						if  (!(Service.docteurs.get(i).getPreference().containsKey(elem1)) && (Service.preference.get(elem1).get(i) == PrefEnum.dispo_but)) {
-							document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(i).getNom() + " en garde "));
-							System.out.println(Service.docteurs.get(indice % Service.docteurs.size()).getNom());
-							test = true;
-							indice++;
-							Service.nbr[i]=Service.nbr[i]+ 1 ;
-							test2 = false;
+							//System.out.println(Service.docteurs.get(indice % Service.docteurs.size()).getNom());
+							if (j==0) {
+							 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
+					         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(i).getNom()));
+					         table.addCell(cell3);
+					         table.addCell(cell4);}
+							else { 		
+							 PdfPCell cell3 = new PdfPCell(new Paragraph(""));
+					         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(i).getNom()));
+					         table.addCell(cell3);
+					         table.addCell(cell4);;}
+						   	test = true;
+						    indice++;
+						    Service.nbr[i]=Service.nbr[i]+ 1 ;
+						    nomdr=Service.docteurs.get(i).getNom();
+						    test2 = false;
 							break;
 					    	}
 						}
 					}
-			   	if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 )){
+			   	if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 ) && nomdr != Service.docteurs.get(indice % Service.docteurs.size()).getNom() ){
 					if (Service.preference.get(elem1).get(indice % Service.docteurs.size()) == PrefEnum.dispo_but) {
-						document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get(indice % Service.docteurs.size()
-								).getNom() + " en garde "));
+						if (j==0) {
+						 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
+				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(indice % Service.docteurs.size()).getNom()));
+				         table.addCell(cell3);
+				         table.addCell(cell4);}
+						else {  
+						 PdfPCell cell3 = new PdfPCell(new Paragraph(""));
+				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(indice % Service.docteurs.size()).getNom()));
+				         table.addCell(cell3);
+				         table.addCell(cell4);}
+				         nomdr=Service.docteurs.get(indice % Service.docteurs.size()).getNom();
 						Service.nbr[indice % Service.docteurs.size()]+= 1;
 						//affichage docteur
 		   			//	System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
-					} else {document.add(new Paragraph("Le " + elem1 + ", le docteur: " + Service.docteurs.get
-							(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom() + " en garde "));
-					        indice ++ ;
-					        Service.nbr[Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)]+= 1;
+					} else {					
+						 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
+				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom()));
+				         table.addCell(cell3);
+				         table.addCell(cell4);
+				         nomdr=Service.docteurs.get(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom();
+				         indice ++ ;
+					     Service.nbr[Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)]+= 1;
                      }
 					break;
 					}
@@ -98,8 +150,9 @@ public class PdfGenerator {
 				}
 					//}
 				}
-		}
-	
+			}	}
+	  table.setWidths(new int[]{8, 15});   
+		document.add(table);
 		document.close();
 
 		try {
@@ -125,5 +178,4 @@ public class PdfGenerator {
 		}
 
 	}
-
 }

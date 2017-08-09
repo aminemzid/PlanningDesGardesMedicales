@@ -1,24 +1,27 @@
 package com.sifast.gardeplan.model;
 
+import javax.swing.JComboBox;
+
 import com.toedter.calendar.JDateChooser;
 
 public class PlanningGarde {
 
 	String NomPlanning;
-	String NomService ;
+	int Nbmed;
 	JDateChooser DateDebut;
 	JDateChooser DateFin;
-
+    Object NomService ;
 	// Constructeurs
 
 	public PlanningGarde() {
 	}
 
-	public PlanningGarde(String NomPlanning, JDateChooser DateDebut, JDateChooser DateFin, String NomService ) {
+	public PlanningGarde(String NomPlanning, JDateChooser DateDebut, JDateChooser DateFin, Object NomService,int nbmed ) {
 		this.NomPlanning = NomPlanning;
 		this.DateDebut = DateDebut;
 		this.DateFin = DateFin;
 		this.NomService = NomService;
+		this.Nbmed = nbmed ;
 	}
 
 	// Methodes set,get
@@ -32,11 +35,11 @@ public class PlanningGarde {
 	}
 	
 	
-	public String getNomService() {
+	public Object getNomService() {
 		return NomService;
 	}
 
-	public void setNomService(String nomService) {
+	public void setNomService(Object nomService) {
 		this.NomService = nomService;
 	}
 
@@ -55,5 +58,14 @@ public class PlanningGarde {
 	public void setDateFin(JDateChooser dateFin) {
 		this.DateFin = dateFin;
 	}
+
+	public int getNbrmed() {
+		return Nbmed;
+	}
+
+	public void setNbrmed(int nbmed) {
+		this.Nbmed = nbmed;
+	}
+	
 
 }

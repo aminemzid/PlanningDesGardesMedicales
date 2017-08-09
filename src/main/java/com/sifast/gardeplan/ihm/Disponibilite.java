@@ -111,7 +111,7 @@ public class Disponibilite extends JFrame {
 
 			Object[] row = new Object[2];
 			row[0] = entry.getKey();
-			row[1] = entry.getValue();
+			row[1] = entry.getValue().get(MembresDeGarde.table.getSelectedRow());
 			model.addRow(row);
 
 		}
@@ -195,7 +195,7 @@ public class Disponibilite extends JFrame {
 					    	    row[0] = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
 						     	row[1] = PrefEnum.dispo_but;
 							    model.addRow(row);
-//					Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
+                     //   	  	Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
 					//				(PrefEnum) row[1]);
 							  								    
 							   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());;
@@ -209,17 +209,15 @@ public class Disponibilite extends JFrame {
 							    	model.addRow(row);
 							//	Service.preference.put(String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate()),
 										//(PrefEnum) row[1]);
-								
 								   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
 								    List<PrefEnum> value = Service.preference.getOrDefault(key, new LinkedList<>());
 								    value.add(PrefEnum.not_dispo);
-								    Service.preference.put(key, value);					    	
+								    Service.preference.put(key, value);		
+								  
 							}
 						   }
 					}
 				}
-					
-			
 			}
 		});
 		// boutton supprimer
@@ -235,9 +233,11 @@ public class Disponibilite extends JFrame {
 
 				int indice = table1.getSelectedRow();
 				if (indice >= 0) {
+					String date = model.getValueAt(indice, 0).toString();
+					Object disp= model.getValueAt(indice, 1);
 					model.removeRow(indice);
 					// fonction pour supprimer disponibilité
-					Service.deletedisponiblity(row);
+					Service.deletedisponiblity(row,date,disp);
 				} else {
 					System.out.println("Delete Error");
 				}
@@ -245,7 +245,7 @@ public class Disponibilite extends JFrame {
 		});
 
 		// bouton valider
-		JButton btnValider = new JButton("valider ");
+		JButton btnValider = new JButton("Valider ");
 		btnValider.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnValider.setBounds(235, 506, 89, 23);
 		contentPane.add(btnValider);

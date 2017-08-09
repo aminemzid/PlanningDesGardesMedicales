@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 
 import com.sifast.gardeplan.ihm.MembresDeGarde;
@@ -61,17 +62,21 @@ public class Service {
 	
 
 	// foncion pour creer un planning
-	public static void createPlanning(String nom, JDateChooser dateD, JDateChooser dateF, String nomserv) {
+	public static void createPlanning(String nom, JDateChooser dateD, JDateChooser dateF, Object nomserv,int nbmed) {
 		plan.setDateDebut(dateD);
 		plan.setDateFin(dateF);
 		plan.setNomPlanning(nom);
 		plan.setNomService(nomserv);
+		plan.setNbrmed(nbmed);
 	}
 	
 
 	// fonction pour supprimer disponibilité
-	public static void deletedisponiblity(Object[] row) {
+	public static void deletedisponiblity(Object[] row,String date, Object disp) {
 		preference.remove(row);
+	    int i = preference.get(date).indexOf(disp);
+	    preference.get(date).remove(i);
 	}
 
+	
 }

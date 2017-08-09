@@ -1,11 +1,13 @@
 package com.sifast.gardeplan.ihm;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,6 +30,7 @@ public class AjouterPlanning extends JFrame {
 	static private AjouterPlanning frame1;
 	public static JDateChooser dateF;
 	public static JDateChooser dateD;
+	private JComboBox liste2;
 
 	// classe principale
 	public static void main(String[] args) {
@@ -51,7 +54,7 @@ public class AjouterPlanning extends JFrame {
 
 	// constructeur
 	public AjouterPlanning() {
-
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
@@ -68,30 +71,42 @@ public class AjouterPlanning extends JFrame {
 		lblAjouterNouveauPlanning.setBounds(93, 32, 240, 32);
 		contentPane.add(lblAjouterNouveauPlanning);
 
-		JLabel lblNomDuPlanning = new JLabel("Nom du Planning:");
+		JLabel lblNomDuPlanning = new JLabel("Nom du Planning :");
 		lblNomDuPlanning.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblNomDuPlanning.setBounds(138, 175, 128, 15);
+		lblNomDuPlanning.setBounds(138, 125, 128, 15);
 		contentPane.add(lblNomDuPlanning);
 
 		textField = new JTextField();
-		textField.setBounds(310, 170, 154, 26);
+		textField.setBounds(310, 120, 154, 26);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		//service de garde
-		JLabel lblNomservice = new JLabel("Nom de service de garde :");
-		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblNomservice.setBounds(100, 340, 160, 14);
-		contentPane.add(lblNomservice);
-	
+		//nbre de personne necessaire pour la garde 
+		JLabel lblNbrpers = new JLabel("Nombre de medecin necessaire :");
+		lblNbrpers.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		lblNbrpers.setBounds(90, 175, 200, 15);
+		contentPane.add(lblNbrpers);
+		
 		textField2 = new JTextField();
-		textField2.setBounds(310, 340, 154, 26);
+		textField2.setBounds(310, 170, 154, 26);
 		contentPane.add(textField2);
 		textField2.setColumns(10);
+		
+		
+		//service de garde
+    	JLabel lblNomservice = new JLabel("Nom du service de garde :");
+		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		lblNomservice.setBounds(100, 345, 160, 14);
+		contentPane.add(lblNomservice);
 
+		Object[] elements = new Object[]{"service d'accueil de traitement des urgences", "maternité", "chirurgie", "radiologie", "neurologie"};
+		liste2 = new JComboBox(elements);
+		liste2.setBounds(310, 340, 200, 26);
+		contentPane.add(liste2);
+		
 		// Date debut
 
-		JLabel lblDateDeDbut = new JLabel("Date de d\u00E9but:");
+		JLabel lblDateDeDbut = new JLabel("Date de d\u00E9but :");
 		lblDateDeDbut.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		lblDateDeDbut.setBounds(138, 234, 110, 14);
 		contentPane.add(lblDateDeDbut);
@@ -109,7 +124,7 @@ public class AjouterPlanning extends JFrame {
 
 		// Date fin
 
-		JLabel lblDateDeFin = new JLabel("Date de fin:");
+		JLabel lblDateDeFin = new JLabel("Date de fin :");
 		lblDateDeFin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		lblDateDeFin.setBounds(138, 287, 97, 14);
 		contentPane.add(lblDateDeFin);
@@ -177,8 +192,9 @@ public class AjouterPlanning extends JFrame {
 //					plan.setDateDebut(dateD);
 //					plan.setDateFin(dateF);
 //					plan.setNomPlanning(textField.getText().toString());
-				    Service.createPlanning(textField.getText().toString(), dateD, dateF,textField2.getText().toString());
-					
+
+					Service.createPlanning(textField.getText().toString(), dateD, dateF,liste2.getSelectedItem(),Integer.parseInt(textField2.getText().toString()));
+
 					MembresDeGarde frame = new MembresDeGarde();
 					frame.setSize(600, 600);
 					frame.setLocationRelativeTo(null);
