@@ -1,6 +1,8 @@
 package com.sifast.gardeplan.ihm;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +34,8 @@ public class Disponibilite extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
-	
+    String nom_fichier_image = "image1.jpg";
+
 	// private HashMap<String, PrefEnum> preference = new
 	// HashMap<String,PrefEnum>();
 
@@ -42,8 +46,18 @@ public class Disponibilite extends JFrame {
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Disponibilité");
 		setBounds(100, 100, 600, 600);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(176, 224, 230));
+		contentPane = new JPanel()
+		 {
+            protected void paintComponent(Graphics g) 
+            {
+                super.paintComponent(g);
+ 
+                ImageIcon m = new ImageIcon(nom_fichier_image);
+                Image monImage = m.getImage();
+                g.drawImage(monImage, 0, 0,this); }
+ 
+            };
+		//contentPane.setBackground(new Color(176, 224, 230));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -77,13 +91,15 @@ public class Disponibilite extends JFrame {
 		contentPane.add(dateDispo);
 
 		JRadioButton rbDispoBut = new JRadioButton("dispo_but");
-		rbDispoBut.setBackground(new Color(176, 224, 230));
+		rbDispoBut.setBackground(new Color(0, 0, 0));
+		rbDispoBut.setOpaque(false);
+
 		buttonGroup.add(rbDispoBut);
 		rbDispoBut.setBounds(159, 149, 87, 23);
 		contentPane.add(rbDispoBut);
-
 		JRadioButton rbNotDispo = new JRadioButton("Not_dispo");
-		rbNotDispo.setBackground(new Color(176, 224, 230));
+		rbNotDispo.setBackground(new Color(0, 0, 0));
+		rbNotDispo.setOpaque(false);
 		buttonGroup.add(rbNotDispo);
 		rbNotDispo.setBounds(331, 149, 95, 23);
 		contentPane.add(rbNotDispo);

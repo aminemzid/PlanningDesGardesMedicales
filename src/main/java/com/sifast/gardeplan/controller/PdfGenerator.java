@@ -2,6 +2,7 @@ package com.sifast.gardeplan.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -64,37 +65,25 @@ public class PdfGenerator {
 		int indice = 0;
 		int n=Service.plan.getNbrmed();
 		Docteur docteur;
-		String nomdr="" ;
+		
 		for (Object elem1 : MembresDeGarde.dates) { //na3mlou test
 			test2 = true;
+			String nomdr="" ;
 			for(int j=0; j<n; j++) {
 			while (test2) {
 				 docteur = Service.docteurs.get(indice % Service.docteurs.size());
-				/* if (!(docteur.getPreference().containsKey(elem1))) // champ
-															         // vide=
-														            // dispo
-				{	document.add(new Paragraph("Le " + elem1 + ", le docteur:  " + Service.docteurs.get(indice % Service.docteurs.size()).getNom() + " en garde "));
-					System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
-					indice++;
-					Service.nbr[indice % Service.docteurs.size()]+=1;
-					test2 = false;
-				} 
-				else{  */
-				 
-				//if (docteur.getPreference().get(elem1).equals(PrefEnum.not_dispo)) {
-					if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) <0)
+				 if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) <0)
 					{
 					indice++;
 				test2 = false;
 				}else {
-			   	//if (docteur.getPreference().get(elem1).equals(PrefEnum.dispo_but)) {
 					if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) >= 0) {
 
 					Boolean test = false;
 					// recherche du docteur disponible
 					for (int i = 0; i < Service.docteurs.size(); i++) {
-						if  (Service.nbr[i]<4 && nomdr !=Service.docteurs.get(i).getNom()) {
-						if  (!(Service.docteurs.get(i).getPreference().containsKey(elem1)) && (Service.preference.get(elem1).get(i) == PrefEnum.dispo_but)) {
+						  if(!(Service.docteurs.get(i).getPreference().containsKey(elem1))) {
+						if  (Service.nbr[i]<4 && nomdr!=Service.docteurs.get(i).getNom()  && (Service.preference.get(elem1).get(i) == PrefEnum.dispo_but)) {
 							//System.out.println(Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 							if (j==0) {
 							 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
@@ -115,8 +104,9 @@ public class PdfGenerator {
 					    	}
 						}
 					}
-			   	if ((!test) && (Service.nbr[indice % Service.docteurs.size()]<4 ) && nomdr != Service.docteurs.get(indice % Service.docteurs.size()).getNom() ){
-					if (Service.preference.get(elem1).get(indice % Service.docteurs.size()) == PrefEnum.dispo_but) {
+			   	    if ((!test) ){
+					  if (Service.preference.get(elem1).get(indice % Service.docteurs.size()) == PrefEnum.dispo_but  && 
+				(Service.nbr[indice % Service.docteurs.size()]<4 ) &&  nomdr != Service.docteurs.get(indice % Service.docteurs.size()).getNom()) {
 						if (j==0) {
 						 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
 				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(indice % Service.docteurs.size()).getNom()));
@@ -132,27 +122,45 @@ public class PdfGenerator {
 						//affichage docteur
 		   			//	System.out.println(	Service.docteurs.get(indice % Service.docteurs.size()).getNom());
 					indice++;
-					} else {					
+					} else { 
+						while(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) >= 0 && Service.nbr[Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)]>=4 ) 
+						{Service.preference.get(elem1).set(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but), PrefEnum.not_dispo);} 
+						if (Service.preference.get(elem1).indexOf(PrefEnum.dispo_but) >= 0 )
+						{
+							int l=Service.preference.get(elem1).indexOf(PrefEnum.dispo_but);
+							while (nomdr==Service.docteurs.get(l).getNom() && Service.preference.get(elem1).get(l) == PrefEnum.dispo_but )
+							{l+=1;}
+						{if (j==0) {
 						 PdfPCell cell3 = new PdfPCell(new Paragraph(elem1.toString()));
-				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom()));
+				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(l).getNom()));
 				         table.addCell(cell3);
-				         table.addCell(cell4);
-				         nomdr=Service.docteurs.get(Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)).getNom();
+				         table.addCell(cell4); }
+						 else {
+						 PdfPCell cell3 = new PdfPCell(new Paragraph(""));
+				         PdfPCell cell4 = new PdfPCell(new Paragraph(Service.docteurs.get(l).getNom()));
+				         table.addCell(cell3);
+				         table.addCell(cell4);}
+				         nomdr=Service.docteurs.get(l).getNom();
+				         System.out.println(nomdr);
 				         indice ++ ;
-					     Service.nbr[Service.preference.get(elem1).indexOf(PrefEnum.dispo_but)]+= 1;
-                     }
-					break;
-					}
-					break;
-				}else {
+					     Service.nbr[l]+= 1;}
+									}
+						 }
+      					break;
+					} 
+					}else {
 					//rien faire	
+				          }
 				}
-				}
-					//}
-				}
+								}
 			}	}
 	  table.setWidths(new int[]{8, 15});   
 		document.add(table);
+		document.add(new Paragraph("\n"));
+		document.add(new Paragraph("\n"));	
+		Paragraph parag =new Paragraph("Ce planning est crée le " +String.format("%1$td/%1$tm/%1$tY",Calendar.getInstance().getTime().getTime ()));
+		parag.setAlignment(Element.ALIGN_RIGHT);
+		document.add(parag);
 		document.close();
 
 		try {

@@ -3,9 +3,12 @@ package com.sifast.gardeplan.ihm;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,7 +25,6 @@ import javax.swing.UIManager;
 import java.awt.SystemColor;
 
 public class AjouterPlanning extends JFrame {
-
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -31,6 +33,7 @@ public class AjouterPlanning extends JFrame {
 	public static JDateChooser dateF;
 	public static JDateChooser dateD;
 	private JComboBox liste2;
+    String nom_fichier_image = "image1.jpg";
 
 	// classe principale
 	public static void main(String[] args) {
@@ -57,23 +60,36 @@ public class AjouterPlanning extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(176, 224, 230));
+		contentPane = new JPanel()
+		 {
+            protected void paintComponent(Graphics g) 
+            {
+                super.paintComponent(g);
+ 
+                ImageIcon m = new ImageIcon(nom_fichier_image);
+                Image monImage = m.getImage();
+                g.drawImage(monImage, 0, 0,this);
+ 
+            }
+        }
+				;
+		//contentPane.setBackground(new Color(176, 224, 230));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		// titre residant medecin 
 		
+
+
 		// Name of planning
 
 		JLabel lblAjouterNouveauPlanning = new JLabel("Ajouter nouveau planning :");
-		lblAjouterNouveauPlanning.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		lblAjouterNouveauPlanning.setBounds(93, 32, 240, 32);
+		lblAjouterNouveauPlanning.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 25));
+		lblAjouterNouveauPlanning.setBounds(100, 20, 350, 100);
 		contentPane.add(lblAjouterNouveauPlanning);
 
 		JLabel lblNomDuPlanning = new JLabel("Nom du Planning :");
-		lblNomDuPlanning.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblNomDuPlanning.setBounds(138, 125, 128, 15);
+		lblNomDuPlanning.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lblNomDuPlanning.setBounds(110, 125, 150, 20);
 		contentPane.add(lblNomDuPlanning);
 
 		textField = new JTextField();
@@ -83,8 +99,8 @@ public class AjouterPlanning extends JFrame {
 		
 		//nbre de personne necessaire pour la garde 
 		JLabel lblNbrpers = new JLabel("Nombre de medecin necessaire :");
-		lblNbrpers.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblNbrpers.setBounds(90, 175, 200, 15);
+		lblNbrpers.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lblNbrpers.setBounds(30, 175, 260, 15);
 		contentPane.add(lblNbrpers);
 		
 		textField2 = new JTextField();
@@ -95,8 +111,8 @@ public class AjouterPlanning extends JFrame {
 		
 		//service de garde
     	JLabel lblNomservice = new JLabel("Nom du service de garde :");
-		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblNomservice.setBounds(100, 345, 160, 14);
+		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lblNomservice.setBounds(80, 345, 200, 14);
 		contentPane.add(lblNomservice);
 
 		Object[] elements = new Object[]{"service d'accueil de traitement des urgences", "maternité", "chirurgie", "radiologie", "neurologie"};
@@ -107,8 +123,8 @@ public class AjouterPlanning extends JFrame {
 		// Date debut
 
 		JLabel lblDateDeDbut = new JLabel("Date de d\u00E9but :");
-		lblDateDeDbut.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblDateDeDbut.setBounds(138, 234, 110, 14);
+		lblDateDeDbut.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lblDateDeDbut.setBounds(110, 234, 130, 14);
 		contentPane.add(lblDateDeDbut);
 
 		dateF = new JDateChooser();
@@ -125,8 +141,8 @@ public class AjouterPlanning extends JFrame {
 		// Date fin
 
 		JLabel lblDateDeFin = new JLabel("Date de fin :");
-		lblDateDeFin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		lblDateDeFin.setBounds(138, 287, 97, 14);
+		lblDateDeFin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		lblDateDeFin.setBounds(110, 287, 97, 14);
 		contentPane.add(lblDateDeFin);
 
 		dateD = new JDateChooser();

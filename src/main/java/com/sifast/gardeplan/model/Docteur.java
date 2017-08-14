@@ -41,5 +41,4 @@ public class Docteur {
 	public int getindex(HashMap<String, List<PrefEnum>> preference, PrefEnum prefen, List<PrefEnum> value ) {
 		return value.indexOf(prefen);
 	}
-
 }
