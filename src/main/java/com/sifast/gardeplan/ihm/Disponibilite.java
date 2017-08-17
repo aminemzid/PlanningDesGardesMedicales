@@ -39,6 +39,19 @@ public class Disponibilite extends JFrame {
 	// private HashMap<String, PrefEnum> preference = new
 	// HashMap<String,PrefEnum>();
 
+   public String verif_date(int d,int m,int y) {
+	   String date ;
+    	if (m<10)
+		{ if (d<10)
+		{ date=""+y+"0"+m+"0"+d;}
+		else { date=""+y+"0"+m+d;}
+		}	
+		else { if (d<10)
+		{ date=""+y+m+"0"+d;}
+		else { 	date=""+y+m+d;}
+		}
+    	return date;
+    }
 	// constructeur
 
 	public Disponibilite() {
@@ -57,30 +70,33 @@ public class Disponibilite extends JFrame {
                 g.drawImage(monImage, 0, 0,this); }
  
             };
-		//contentPane.setBackground(new Color(176, 224, 230));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// Nom docteur
+		// Nom docteur + Nombre de nuit déja fait durant ce mois ( doit etre inférieur ou égal à 4 par mois)
 
 		JLabel lblNomDuDocteur = new JLabel(
-				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString());
-		lblNomDuDocteur.setBounds(235, 33, 131, 14);
+				MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 0).toString() +  " a fait "+
+				  		MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString() + " nuits durant ce mois");
+		lblNomDuDocteur.setBounds(220, 33, 300, 30);
 		contentPane.add(lblNomDuDocteur);
 		
 		
-  // Nombre de nuit déja fait durant ce mois ( doit etre inférieur ou égal à 4 par mois)
-		
-		JLabel lblNbrenuit = new JLabel( " a fait "+
-  		MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString() + " nuits durant ce mois");
-	    lblNbrenuit.setBounds(320, 33, 250, 14);
-		contentPane.add(lblNbrenuit);
-		
-		int n= Integer.parseInt(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString());
-		
-		if (n>=4) {
+		int nNuit= Integer.parseInt(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 1).toString());
+		if (nNuit>=4) {
 		JOptionPane.showMessageDialog(null, "Ce membre a fait 4 nuits ou plus de garde durant ce mois \n \n         ", "choisir un autre membre",
+				JOptionPane.ERROR_MESSAGE);	
+		}
+		int nbdim=Integer.parseInt(MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 2).toString());
+		if (nbdim >0) {
+			JLabel lblNbredimanche = new JLabel( " dont "+
+			  		MembresDeGarde.table.getValueAt(MembresDeGarde.table.getSelectedRow(), 2).toString() + " dimanche(s)");
+			lblNbredimanche.setBounds(320, 60, 250, 14);
+					contentPane.add(lblNbredimanche);
+			
+		}
+		if (nbdim >nNuit) {JOptionPane.showMessageDialog(null, "Le nombre de dimanche doit etre inferieure au nombre de nuit \n \n         ", "Attention",
 				JOptionPane.ERROR_MESSAGE);	
 		}
 		// choisir la date
@@ -90,18 +106,18 @@ public class Disponibilite extends JFrame {
 		dateDispo.setBounds(221, 89, 105, 20);
 		contentPane.add(dateDispo);
 
-		JRadioButton rbDispoBut = new JRadioButton("dispo_but");
+		JRadioButton rbDispoBut = new JRadioButton("Disponible");
 		rbDispoBut.setBackground(new Color(0, 0, 0));
 		rbDispoBut.setOpaque(false);
 
 		buttonGroup.add(rbDispoBut);
 		rbDispoBut.setBounds(159, 149, 87, 23);
 		contentPane.add(rbDispoBut);
-		JRadioButton rbNotDispo = new JRadioButton("Not_dispo");
+		JRadioButton rbNotDispo = new JRadioButton("Non disponible");
 		rbNotDispo.setBackground(new Color(0, 0, 0));
 		rbNotDispo.setOpaque(false);
 		buttonGroup.add(rbNotDispo);
-		rbNotDispo.setBounds(331, 149, 95, 23);
+		rbNotDispo.setBounds(331, 149, 110,23);
 		contentPane.add(rbNotDispo);
 
 		// table (affichage de disponibilité)
@@ -138,7 +154,7 @@ public class Disponibilite extends JFrame {
 		contentPane.add(pane);
 
 		// bouton ajouter
-
+      
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnAjouter.setBounds(175, 210, 89, 23);
@@ -150,36 +166,11 @@ public class Disponibilite extends JFrame {
 				String dateDebut ;
 				String dateFin ;
 				String dateChoisie ;		
-				if (AjouterPlanning.dateD.getDate().getMonth()<10)
-				{ if (AjouterPlanning.dateD.getDate().getDate()<10)
-				{ dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+"0"+AjouterPlanning.dateD.getDate().getMonth()+"0"+AjouterPlanning.dateD.getDate().getDate();}
-				else { dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+"0"+AjouterPlanning.dateD.getDate().getMonth()+AjouterPlanning.dateD.getDate().getDate();}
-				}	
-				else { if (AjouterPlanning.dateD.getDate().getDate()<10)
-				{ dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+AjouterPlanning.dateD.getDate().getMonth()+"0"+AjouterPlanning.dateD.getDate().getDate();}
-				else { 	dateDebut=""+AjouterPlanning.dateD.getDate().getYear()+AjouterPlanning.dateD.getDate().getMonth()+AjouterPlanning.dateD.getDate().getDate();}
-				}
-				
-				if ( AjouterPlanning.dateF.getDate().getMonth()<10)
-				{ if ( AjouterPlanning.dateF.getDate().getDate()<10)
-				{ dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+"0"+ AjouterPlanning.dateF.getDate().getMonth()+"0"+ AjouterPlanning.dateF.getDate().getDate();}
-				else { dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+"0"+ AjouterPlanning.dateF.getDate().getMonth()+ AjouterPlanning.dateF.getDate().getDate();}
-				}	
-				else { if ( AjouterPlanning.dateF.getDate().getDate()<10)
-				{ dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+ AjouterPlanning.dateF.getDate().getMonth()+"0"+ AjouterPlanning.dateF.getDate().getDate();}
-				else { 	dateFin=""+ AjouterPlanning.dateF.getDate().getYear()+ AjouterPlanning.dateF.getDate().getMonth()+ AjouterPlanning.dateF.getDate().getDate();}
-				}
-				
-				if ( dateDispo.getDate().getMonth()<10)
-				{ if (dateDispo.getDate().getDate()<10)
-				{ dateChoisie=""+dateDispo.getDate().getYear()+"0"+ dateDispo.getDate().getMonth()+"0"+ dateDispo.getDate().getDate();}
-				else { dateChoisie=""+ dateDispo.getDate().getYear()+"0"+dateDispo.getDate().getMonth()+ dateDispo.getDate().getDate();}
-				}	
-				else { if (dateDispo.getDate().getDate()<10)
-				{ dateChoisie=""+dateDispo.getDate().getYear()+ dateDispo.getDate().getMonth()+"0"+dateDispo.getDate().getDate();}
-				else { 	dateChoisie=""+dateDispo.getDate().getYear()+ dateDispo.getDate().getMonth()+dateDispo.getDate().getDate();}
-				}
-				
+			
+				dateDebut= verif_date(AjouterPlanning.dateD.getDate().getDate(),AjouterPlanning.dateD.getDate().getMonth(),AjouterPlanning.dateD.getDate().getYear());
+				dateFin= verif_date(AjouterPlanning.dateF.getDate().getDate(),AjouterPlanning.dateF.getDate().getMonth(),AjouterPlanning.dateF.getDate().getYear());
+				dateChoisie= verif_date(dateDispo.getDate().getDate(),dateDispo.getDate().getMonth(),dateDispo.getDate().getYear());
+
 				int dateDebut_int = Integer.parseInt(dateDebut);
 				int dateFin_int = Integer.parseInt(dateFin);
 				int dateChoisie_int = Integer.parseInt(dateChoisie);
@@ -207,27 +198,24 @@ public class Disponibilite extends JFrame {
 					
 
 					else {                 
-					    if ((rbDispoBut.isSelected()) && (n<4)){
+					    if ((rbDispoBut.isSelected()) && (nNuit<4)){
 					    	    row[0] = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
-						     	row[1] = PrefEnum.dispo_but;
+						     	row[1] = PrefEnum.disponible;
 							    model.addRow(row);
-                     //   	  	Service.preference.put(String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate()),
-					//				(PrefEnum) row[1]);
-							  								    
+             							  								    
 							   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());;
 							    List<PrefEnum> value = Service.preference.getOrDefault(key, new LinkedList<>());
-							    value.add(PrefEnum.dispo_but);
+							    value.add(PrefEnum.disponible);
 							    Service.preference.put(key, value);
 						}else {
 							if (rbNotDispo.isSelected()) {
 					    	        row[0] = String.format("%1$td/%1$tm/%1$tY", dateDispo.getDate());
-							    	row[1] = PrefEnum.not_dispo;
+							    	row[1] = PrefEnum.non_disponible;
 							    	model.addRow(row);
-							//	Service.preference.put(String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate()),
-										//(PrefEnum) row[1]);
+					
 								   String key = String.format("%1$td/%1$tm/%1$tY",dateDispo.getDate());
 								    List<PrefEnum> value = Service.preference.getOrDefault(key, new LinkedList<>());
-								    value.add(PrefEnum.not_dispo);
+								    value.add(PrefEnum.non_disponible);
 								    Service.preference.put(key, value);		
 								  
 							}

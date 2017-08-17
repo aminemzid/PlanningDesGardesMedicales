@@ -1,7 +1,6 @@
 package com.sifast.gardeplan.ihm;
 
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -52,9 +51,21 @@ public class AjouterPlanning extends JFrame {
 				}
 			}
 		});
-
 	}
-
+	//fonction pour verifier les dates pour pouvoir les comparer apres
+	  public String verif_date(int d,int m,int y) {
+		   String date ;
+	    	if (m<10)
+			{ if (d<10)
+			{ date=""+y+"0"+m+"0"+d;}
+			else { date=""+y+"0"+m+d;}
+			}	
+			else { if (d<10)
+			{ date=""+y+m+"0"+d;}
+			else { 	date=""+y+m+d;}
+			}
+	    	return date;
+	    }
 	// constructeur
 	public AjouterPlanning() {
 		
@@ -69,17 +80,11 @@ public class AjouterPlanning extends JFrame {
                 ImageIcon m = new ImageIcon(nom_fichier_image);
                 Image monImage = m.getImage();
                 g.drawImage(monImage, 0, 0,this);
- 
-            }
-        }
-				;
-		//contentPane.setBackground(new Color(176, 224, 230));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+             }
+        };
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-
-
 		// Name of planning
 
 		JLabel lblAjouterNouveauPlanning = new JLabel("Ajouter nouveau planning :");
@@ -108,11 +113,10 @@ public class AjouterPlanning extends JFrame {
 		contentPane.add(textField2);
 		textField2.setColumns(10);
 		
-		
 		//service de garde
     	JLabel lblNomservice = new JLabel("Nom du service de garde :");
 		lblNomservice.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		lblNomservice.setBounds(80, 345, 200, 14);
+		lblNomservice.setBounds(80, 345, 200, 18);
 		contentPane.add(lblNomservice);
 
 		Object[] elements = new Object[]{"service d'accueil de traitement des urgences", "maternité", "chirurgie", "radiologie", "neurologie"};
@@ -164,25 +168,9 @@ public class AjouterPlanning extends JFrame {
 				String dateDebut1 ;
 				String dateFin1 ;
 							
-				if (dateD.getDate().getMonth()<10)
-				{ if (dateD.getDate().getDate()<10)
-				{ dateDebut1=""+dateD.getDate().getYear()+"0"+dateD.getDate().getMonth()+"0"+dateD.getDate().getDate();}
-				else { dateDebut1=""+dateD.getDate().getYear()+"0"+dateD.getDate().getMonth()+dateD.getDate().getDate();}
-				}	
-				else { if (dateD.getDate().getDate()<10)
-				{ dateDebut1=""+dateD.getDate().getYear()+dateD.getDate().getMonth()+"0"+dateD.getDate().getDate();}
-				else { 	dateDebut1=""+dateD.getDate().getYear()+dateD.getDate().getMonth()+dateD.getDate().getDate();}
-				}
-				
-				if (dateF.getDate().getMonth()<10)
-				{ if (dateF.getDate().getDate()<10)
-				{ dateFin1=""+dateF.getDate().getYear()+"0"+dateF.getDate().getMonth()+"0"+dateF.getDate().getDate();}
-				else { dateFin1=""+dateF.getDate().getYear()+"0"+dateF.getDate().getMonth()+dateF.getDate().getDate();}
-				}	
-				else { if (dateF.getDate().getDate()<10)
-				{ dateFin1=""+dateF.getDate().getYear()+dateF.getDate().getMonth()+"0"+dateF.getDate().getDate();}
-				else { 	dateFin1=""+dateF.getDate().getYear()+dateF.getDate().getMonth()+dateF.getDate().getDate();}
-				}
+				dateDebut1= verif_date(AjouterPlanning.dateD.getDate().getDate(),AjouterPlanning.dateD.getDate().getMonth(),AjouterPlanning.dateD.getDate().getYear());
+				dateFin1= verif_date(AjouterPlanning.dateF.getDate().getDate(),AjouterPlanning.dateF.getDate().getMonth(),AjouterPlanning.dateF.getDate().getYear());
+
 				int dateDebut1_int = Integer.parseInt(dateDebut1);
 				int dateFin1_int = Integer.parseInt(dateFin1);
 				System.out.println(dateDebut1_int);

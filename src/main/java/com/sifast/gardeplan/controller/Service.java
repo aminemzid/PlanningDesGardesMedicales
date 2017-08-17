@@ -16,8 +16,8 @@ import com.toedter.calendar.JDateChooser;
 public class Service {
 	
 	public static ArrayList<Docteur> docteurs = new ArrayList<Docteur>();
-	public static int[] nbr = new int[1000];
-
+	public static int[] nbr = new int[100];
+    public static int[] dimanche =new int[100];
 	public static PlanningGarde plan = new PlanningGarde();
 	public static HashMap<String,List<PrefEnum>> preference = new HashMap<String, List<PrefEnum>>();
 
@@ -50,11 +50,16 @@ public class Service {
 	    	 return nbr;
 	     }
 
-		
+	     public static int[] generernombredimanche(JTable table ) {
+	    	 for (int i = 0; i < table.getRowCount(); i++) {
+					dimanche[i]=Integer.parseInt(MembresDeGarde.table.getValueAt(i,2).toString());
+	    	 }
+	    	 return dimanche;
+	     }
 	// fonction pour gerer la disponibilié dans Disponibilite
 
 	public static ArrayList<Docteur> gererDisponiblite(JTable table, HashMap<String, List<PrefEnum>> preference) {
-       if (nbr[table.getSelectedRow()]<4)        
+    //   if (nbr[table.getSelectedRow()]<4 && dimanche[table.getSelectedRow()]<2)        
 		{docteurs.get(table.getSelectedRow()).setPreference(preference);
 		}
 		return docteurs;

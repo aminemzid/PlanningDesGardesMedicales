@@ -57,7 +57,6 @@ public class MembresDeGarde extends JFrame {
  
             }
         };
-	//	contentPane.setBackground((new Color(176, 224, 230)));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -73,7 +72,7 @@ public class MembresDeGarde extends JFrame {
 		contentPane.add(textArea_1);
 
 		JTextArea textArea = new JTextArea(
-				"Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
+				"Membres de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
 						+ " au " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
 		textArea.setBackground(new Color(0, 0, 0));
 	    textArea.setOpaque(false);
@@ -85,7 +84,7 @@ public class MembresDeGarde extends JFrame {
 		// table
 
 		Object[][] data = null;
-		String[] colomname = { "Membre", "Nbre de nuits d\u00E9ja fait ", "Disponibilit\u00E9"};
+		String[] colomname = { "Membre", "Nbre de nuits fait ","Nbre de dimanche fait", "Disponibilit\u00E9"};
 		DefaultTableModel model = new DefaultTableModel(data, colomname);
 		table = new JTable(model);
 
@@ -96,7 +95,7 @@ public class MembresDeGarde extends JFrame {
 		// JScrollPane
 		JScrollPane pane = new JScrollPane(table);
 		pane.setEnabled(false);
-		pane.setBounds(43, 223, 504, 258);
+		pane.setBounds(15, 223, 555, 258);
 
 		contentPane.add(pane);
 
@@ -117,8 +116,8 @@ public class MembresDeGarde extends JFrame {
 				service.createDoctor();
 
 				AfficherDisponibilité bt = new AfficherDisponibilité(new JCheckBox());
-				// mettre le bouton saisir disponibilité à la 3 eme colonne du tableau model
-				TableColumn dispoColumn = table.getColumnModel().getColumn(2);
+				// mettre le bouton saisir disponibilité à la 4 eme colonne du tableau model
+				TableColumn dispoColumn = table.getColumnModel().getColumn(3);
             	dispoColumn.setCellRenderer(new AfficherBouton());
 				dispoColumn.setCellEditor(bt);
 								
@@ -184,6 +183,7 @@ public class MembresDeGarde extends JFrame {
 
 					service.genererPlanning(table);
 					service.generernombre(table);
+					service.generernombredimanche(table);
 					try {
 						PdfGenerator.generatePdfFile();
 						

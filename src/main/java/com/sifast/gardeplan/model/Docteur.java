@@ -38,7 +38,4 @@ public class Docteur {
 	public void setPreference(HashMap<String, List<PrefEnum>> preference) {
 		this.preference = preference;
 	}
-	public int getindex(HashMap<String, List<PrefEnum>> preference, PrefEnum prefen, List<PrefEnum> value ) {
-		return value.indexOf(prefen);
-	}
 }
