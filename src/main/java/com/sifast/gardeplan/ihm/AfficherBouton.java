@@ -3,6 +3,7 @@ package com.sifast.gardeplan.ihm;
 import java.awt.Component;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
@@ -21,6 +22,7 @@ public class AfficherBouton extends JButton implements TableCellRenderer {
 			setBackground(table.getSelectionBackground());
 			setForeground(table.getForeground());
 			setBackground(UIManager.getColor("Button.background"));
+			
 		}
 		setText((value == null) ? "saisir disponibilité" : value.toString());
 		return this;

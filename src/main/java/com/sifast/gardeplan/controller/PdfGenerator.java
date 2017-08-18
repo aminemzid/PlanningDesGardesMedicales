@@ -139,7 +139,7 @@ public class PdfGenerator {
 					  if (Service.preference.get(elem1).get(indice % Service.docteurs.size()) == PrefEnum.disponible  && 
 				          Service.nbr[indice % Service.docteurs.size()]<4  && nomdr!=Service.docteurs.get(indice % Service.docteurs.size()).getNom())
 						  
-					  { affiche_tab(j , indice % Service.docteurs.size(),sdf.format(dte)+" le "+ elem1.toString(), table);
+					  { affiche_tab(j,indice % Service.docteurs.size(),sdf.format(dte)+" le "+ elem1.toString(), table);
 				         nomdr=Service.docteurs.get(indice % Service.docteurs.size()).getNom();
 						Service.nbr[indice % Service.docteurs.size()]+= 1;
 						if(testdim ) { Service.dimanche[indice % Service.docteurs.size()]+= 1;}

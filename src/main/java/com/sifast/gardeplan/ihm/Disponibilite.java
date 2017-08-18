@@ -157,7 +157,7 @@ public class Disponibilite extends JFrame {
       
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
-		btnAjouter.setBounds(175, 210, 89, 23);
+		btnAjouter.setBounds(100, 210, 89, 23);
 		contentPane.add(btnAjouter);
 		Object[] row = new Object[2];
 		btnAjouter.addActionListener(new ActionListener() {
@@ -228,7 +228,7 @@ public class Disponibilite extends JFrame {
 
 		JButton btnSupprimerMembre = new JButton("Supprimer");
 		btnSupprimerMembre.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
-		btnSupprimerMembre.setBounds(294, 210, 95, 23);
+		btnSupprimerMembre.setBounds(245, 210, 95, 23);
 		contentPane.add(btnSupprimerMembre);
 
 		btnSupprimerMembre.addActionListener(new ActionListener() {
@@ -241,13 +241,35 @@ public class Disponibilite extends JFrame {
 					Object disp= model.getValueAt(indice, 1);
 					model.removeRow(indice);
 					// fonction pour supprimer disponibilité
-					Service.deletedisponiblity(row,date,disp);
+					Service.deletedisponiblity(row,date,disp,MembresDeGarde.table);
 				} else {
 					System.out.println("Delete Error");
 				}
 			}
 		});
+		// boutton modifier
 
+				JButton btnModifierMembre = new JButton("Modifier");
+				btnModifierMembre.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
+				btnModifierMembre.setBounds(385, 210, 95, 23);
+				contentPane.add(btnModifierMembre);
+
+				btnModifierMembre.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+
+						int indice = table1.getSelectedRow();
+						if (indice >= 0) {
+							String date = model.getValueAt(indice, 0).toString();
+							Object disp= model.getValueAt(indice, 1);
+							model.setValueAt(Service.setdisponiblity(date,disp), indice, 1);
+							
+						} else {
+							System.out.println("set Error");
+						}
+					}
+				});
+		
 		// bouton valider
 		JButton btnValider = new JButton("Valider ");
 		btnValider.setBackground(UIManager.getColor("EditorPane.selectionBackground"));

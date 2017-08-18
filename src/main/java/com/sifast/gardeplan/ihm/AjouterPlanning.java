@@ -27,11 +27,12 @@ public class AjouterPlanning extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField2;
+	//private JTextField textField2;
 	static private AjouterPlanning frame1;
 	public static JDateChooser dateF;
 	public static JDateChooser dateD;
 	private JComboBox liste2;
+	private JComboBox liste;
     String nom_fichier_image = "image1.jpg";
 
 	// classe principale
@@ -67,6 +68,7 @@ public class AjouterPlanning extends JFrame {
 	    	return date;
 	    }
 	// constructeur
+	@SuppressWarnings("serial")
 	public AjouterPlanning() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,10 +110,10 @@ public class AjouterPlanning extends JFrame {
 		lblNbrpers.setBounds(30, 175, 260, 15);
 		contentPane.add(lblNbrpers);
 		
-		textField2 = new JTextField();
-		textField2.setBounds(310, 170, 154, 26);
-		contentPane.add(textField2);
-		textField2.setColumns(10);
+		Object[] element = new Object[]{"1","2"};
+		liste = new JComboBox(element);
+		liste.setBounds(310, 170, 154, 26);
+		contentPane.add(liste);
 		
 		//service de garde
     	JLabel lblNomservice = new JLabel("Nom du service de garde :");
@@ -197,7 +199,7 @@ public class AjouterPlanning extends JFrame {
 //					plan.setDateFin(dateF);
 //					plan.setNomPlanning(textField.getText().toString());
 
-					Service.createPlanning(textField.getText().toString(), dateD, dateF,liste2.getSelectedItem(),Integer.parseInt(textField2.getText().toString()));
+					Service.createPlanning(textField.getText().toString(), dateD, dateF,liste2.getSelectedItem(),Integer.parseInt(liste.getSelectedItem().toString()));
 
 					MembresDeGarde frame = new MembresDeGarde();
 					frame.setSize(600, 600);

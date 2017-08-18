@@ -77,11 +77,26 @@ public class Service {
 	
 
 	// fonction pour supprimer disponibilité
-	public static void deletedisponiblity(Object[] row,String date, Object disp) {
+	public static void deletedisponiblity(Object[] row,String date, Object disp,JTable table) {
 		preference.remove(row);
-	    int i = preference.get(date).indexOf(disp);
+	  		
+	    int i = MembresDeGarde.table.getSelectedRow();
+
 	    preference.get(date).remove(i);
+	  
 	}
+	// fonction pour modifier disponibilité
+		public static PrefEnum setdisponiblity(String date, Object disp) {
+		
+			PrefEnum test ;
+		    int i = MembresDeGarde.table.getSelectedRow();
+if (disp==PrefEnum.disponible) {test= PrefEnum.non_disponible;} 
+else {test= PrefEnum.non_disponible;}
+
+		    preference.get(date).set(i, test);
+		    return test;
+		  
+		}
 
 	
 }
