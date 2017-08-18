@@ -3,6 +3,8 @@ package com.sifast.gardeplan.ihm;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -26,23 +29,34 @@ import javax.swing.table.TableColumn;
 import com.sifast.gardeplan.controller.PdfGenerator;
 import com.sifast.gardeplan.controller.Service;
 
+
 public class MembresDeGarde extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	public static ArrayList<Object> dates = new ArrayList<Object>();
 	public static JTable table;
 	public static Service service;
-	
+    String nom_fichier_image = "image1.jpg";
+
 	
 	public MembresDeGarde() {
 
 		service = new Service();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
-		contentPane = new JPanel();
-		contentPane.setBackground((new Color(176, 224, 230)));
+		contentPane = new JPanel()
+		 {
+            protected void paintComponent(Graphics g) 
+            {
+                super.paintComponent(g);
+ 
+                ImageIcon m = new ImageIcon(nom_fichier_image);
+                Image monImage = m.getImage();
+                g.drawImage(monImage, 0, 0,this);
+ 
+            }
+        };
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -50,16 +64,18 @@ public class MembresDeGarde extends JFrame {
 		// text
 
 		JTextArea textArea_1 = new JTextArea(Service.plan.getNomPlanning());
-		textArea_1.setBackground(new Color(176, 224, 230));
+		textArea_1.setBackground(new Color(0, 0, 0));
+	    textArea_1.setOpaque(false);
 		textArea_1.setBounds(213, 32, 156, 46);
 		textArea_1.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea_1.setEditable(false);
 		contentPane.add(textArea_1);
 
 		JTextArea textArea = new JTextArea(
-				"Membre de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
+				"Membres de garde du " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateDebut().getDate())
 						+ " au " + String.format("%1$td/%1$tm/%1$tY", Service.plan.getDateFin().getDate()));
-		textArea.setBackground(new Color(176, 224, 230));
+		textArea.setBackground(new Color(0, 0, 0));
+	    textArea.setOpaque(false);
 		textArea.setFont(new Font("Myanmar Text", Font.ITALIC, 20));
 		textArea.setEditable(false);
 		textArea.setBounds(57, 89, 466, 48);
@@ -68,7 +84,7 @@ public class MembresDeGarde extends JFrame {
 		// table
 
 		Object[][] data = null;
-		String[] colomname = { "membre", "Disponibilité" };
+		String[] colomname = { "Membre", "Nbre de nuits fait ","Nbre de dimanche fait", "Disponibilit\u00E9"};
 		DefaultTableModel model = new DefaultTableModel(data, colomname);
 		table = new JTable(model);
 
@@ -79,12 +95,12 @@ public class MembresDeGarde extends JFrame {
 		// JScrollPane
 		JScrollPane pane = new JScrollPane(table);
 		pane.setEnabled(false);
-		pane.setBounds(43, 223, 504, 258);
+		pane.setBounds(15, 223, 555, 258);
 
 		contentPane.add(pane);
 
 		// bouton ajouter
-		Component[] row = new Component[2];
+		Component[] row = new Component[3];
 		JButton btnAdd = new JButton("Ajouter membre");
 		btnAdd.setBackground(UIManager.getColor("EditorPane.selectionBackground"));
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 17));
@@ -100,10 +116,11 @@ public class MembresDeGarde extends JFrame {
 				service.createDoctor();
 
 				AfficherDisponibilité bt = new AfficherDisponibilité(new JCheckBox());
-				// mettre le bouton saisir disponibilité à la 2 eme colonne du tableau model
-				TableColumn dispoColumn = table.getColumnModel().getColumn(1);
+				// mettre le bouton saisir disponibilité à la 4 eme colonne du tableau model
+				TableColumn dispoColumn = table.getColumnModel().getColumn(3);
             	dispoColumn.setCellRenderer(new AfficherBouton());
 				dispoColumn.setCellEditor(bt);
+								
 			}
 
 		});
@@ -151,9 +168,9 @@ public class MembresDeGarde extends JFrame {
 		
 					calendar.add(Calendar.DATE, 1);
 					dates.add(String.format("%1$td/%1$tm/%1$tY", calendar));
-//					calendar=Calendar.getInstance();
+             //	calendar=Calendar.getInstance();
 			}
-				if (table.getValueAt(0, 0) == null)
+				if (table.getValueAt(0,0) == null)
 					JOptionPane.showMessageDialog(null,
 							"Ajouter au moins un membre \n \n                  Svp réssayez", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
@@ -165,7 +182,8 @@ public class MembresDeGarde extends JFrame {
 					// }
 
 					service.genererPlanning(table);
-					
+					service.generernombre(table);
+					service.generernombredimanche(table);
 					try {
 						PdfGenerator.generatePdfFile();
 						

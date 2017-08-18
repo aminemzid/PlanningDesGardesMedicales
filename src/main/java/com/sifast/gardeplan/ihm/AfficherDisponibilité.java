@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import com.sifast.gardeplan.ihm.Disponibilite;
@@ -52,8 +53,9 @@ public class AfficherDisponibilité extends DefaultCellEditor {
 			Disponibilite frame = new Disponibilite();
 			frame.setVisible(true);
 			frame.setLocationRelativeTo(null);
-			
-		
+
+			JOptionPane.showMessageDialog(null, "Veuillez ne pas oublier de saisir toutes les dates accompgnées de la disponibilité \n \n         ", "Attention",
+					JOptionPane.WARNING_MESSAGE);		
 		}
 		isPushed = false;
 		return new String(label);
